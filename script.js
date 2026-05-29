@@ -3,12 +3,12 @@ let preguntas = [];
 let aciertos = 0;
 let fallos = 0;
 let indice = 0;
-let tiempo = 120;
+let tiempo = 405;
 let temporizador;
 let juegoIniciado = false; 
 
 // Configuraciones de tiempo persistentes (valores por defecto)
-let tiempoConfig = 120;
+let tiempoConfig = 405;
 let modoTiempo = "total"; // Puede ser "total" o "por_letra"
 let modoDocenteActivo = false;
 let tituloConfig = "Rosco de las Emociones";
