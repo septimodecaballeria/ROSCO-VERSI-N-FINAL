@@ -85,7 +85,7 @@ function inicializarJuego() {
         arrancarPantalla();
         verificarAutoguardado();
     } else {
-        fetch("preguntas.json")
+        fetch('preguntas.json?v=2.0')
             .then(r => r.json())
             .then(data => {
                 preguntas = data.map(p => ({...p, estado:0}));
