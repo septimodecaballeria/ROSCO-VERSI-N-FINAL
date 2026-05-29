@@ -1,0 +1,383 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  background: radial-gradient(circle, #1e1e3f 0%, #0b0b16 100%);
+  color: #f1f1f1;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2.6em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  background: linear-gradient(45deg, #0074D9, #7FDBFF, #2ECC40);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
+}
+
+/* Marcadores estilizados */
+#marcadores {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 30px;
+  display: inline-block;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.marcador-item {
+  display: inline;
+  margin: 0 15px;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+#tiempo, #aciertos, #fallos {
+  font-size: 1.2em;
+  color: #7FDBFF;
+}
+#aciertos { color: #2ECC40; }
+#fallos { color: #FF4136; }
+
+/* Contenedor del Rosco */
+#rosco-contenedor {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+#rosco {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  box-shadow: inset 0 0 30px rgba(0,116,217,0.1);
+}
+
+.letra {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #0074D9;
+  border: 2px solid #0056b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: white;
+  font-weight: bold;
+  font-size: 1.1em;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.activa {
+  background: #FFDC00;
+  color: #111;
+  border-color: #FFA500;
+  transform: scale(1.2);
+  box-shadow: 0 0 20px #FFDC00;
+  z-index: 10;
+}
+
+.correcta {
+  background: #2ECC40;
+  border-color: #259b34;
+  animation: explode 0.4s ease-out;
+}
+
+.incorrecta { 
+  background: #FF4136; 
+  border-color: #b32d25;
+}
+
+@keyframes explode {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4) rotate(15deg); }
+  100% { transform: scale(1); }
+}
+
+/* Zona de Controles del Juego */
+#juego-controles {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 550px;
+  margin: 20px auto;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+#pregunta {
+  font-size: 1.3em;
+  min-height: 50px;
+  margin-top: 0;
+  color: #e0e0ff;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+#respuesta {
+  width: 80%;
+  padding: 12px 20px;
+  font-size: 1.1em;
+  border-radius: 25px;
+  border: 2px solid #0074D9;
+  background: #111;
+  color: white;
+  text-align: center;
+  outline: none;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+#respuesta:focus {
+  border-color: #7FDBFF;
+  box-shadow: 0 0 10px rgba(127, 219, 255, 0.5);
+}
+
+/* Botones hermosos de Juego */
+.botones-accion {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-juego {
+  padding: 12px 28px;
+  font-size: 1.05em;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.btn-responder {
+  background: linear-gradient(135deg, #2ECC40 0%, #219653 100%);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.btn-responder:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(46, 204, 64, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-pasapalabra {
+  background: linear-gradient(135deg, #FF9F43 0%, #FF5722 100%);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.btn-pasapalabra:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 159, 67, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-juego:active {
+  transform: translateY(1px);
+}
+
+/* Botón comenzar gigante */
+#btn-comenzar {
+  font-size: 1.3em;
+  padding: 15px 40px;
+  background: linear-gradient(135deg, #2ECC40 0%, #0074D9 100%);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(0,116,217,0.4);
+  transition: all 0.3s;
+}
+#btn-comenzar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(46,204,64,0.5);
+}
+
+/* Botón superior de Login */
+#btn-login {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9em;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.2s;
+  z-index: 9999 !important; 
+}
+
+#btn-login:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* Panel Administrativo */
+#panel-admin {
+  display: none;
+  background: #15152a;
+  border: 2px dashed #0074D9;
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+#panel-admin h3 {
+  margin-top: 0;
+  color: #7FDBFF;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 5px;
+}
+
+.admin-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+.input-admin {
+  background: #0f0f1d;
+  border: 1px solid #334;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 0.95em;
+}
+.input-admin:focus {
+  border-color: #0074D9;
+  outline: none;
+}
+
+.admin-label {
+  display: block;
+  font-size: 0.85em;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+.divisor {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,255,255,0.1), transparent);
+  margin: 20px 0;
+}
+
+/* Botones Administrativos */
+.btn-admin-primario, .btn-admin-azul, .btn-admin-verde, .btn-admin-naranja, .btn-admin-peligro {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 0.95em;
+  transition: background 0.2s;
+}
+
+.btn-admin-primario { background: #0074D9; }
+.btn-admin-primario:hover { background: #0056b3; }
+.btn-admin-azul { background: #39CCCC; color: #111; }
+.btn-admin-azul:hover { background: #28a1a1; }
+.btn-admin-verde { background: #2ECC40; width: 49%; }
+.btn-admin-verde:hover { background: #249d32; }
+.btn-admin-naranja { background: #FF851B; width: 49%; }
+.btn-admin-naranja:hover { background: #d96f12; }
+.btn-admin-peligro { background: #FF4136; margin-top: 15px; }
+.btn-admin-peligro:hover { background: #dc2f25; }
+
+
+/* ==== ESTILOS DEL MODAL PERSONALIZADO ==== */
+.modal-overlay {
+  display: none; 
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: #1b1b36;
+  border: 3px solid #0074D9;
+  border-radius: 14px;
+  padding: 30px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(0,116,217,0.15);
+  animation: popup 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popup {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  font-size: 1.6em;
+  color: #7FDBFF;
+  letter-spacing: 1px;
+}
+
+#modal-mensaje {
+  font-size: 1.1em;
+  color: #e0e0ff;
+  line-height: 1.5;
+  margin: 15px 0;
+}
+
+.modal-botones {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-botones button {
+  padding: 10px 24px;
+  font-weight: bold;
+  font-size: 1em;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#modal-btn-ok {
+  background: #2ECC40;
+  color: white;
+}
+#modal-btn-ok:hover { background: #249d32; }
+
+#modal-btn-cancel {
+  background: #FF4136;
+  color: white;
+  display: none;
+}
+#modal-btn-cancel:hover { background: #dc2f25; }

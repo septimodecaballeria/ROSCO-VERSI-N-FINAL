@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosco de las Emociones</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <button id="btn-login" onclick="toggleDocente()">Modo Docente</button>
+
+    <h1 id="titulo-juego">Rosco de las Emociones</h1>
+    
+    <div id="marcadores">
+        <p class="marcador-item">⏱️ Tiempo: <span id="tiempo">120</span>s</p>
+        <p class="marcador-item">✅ Aciertos: <span id="aciertos">0</span> | ❌ Fallos: <span id="fallos">0</span></p>
+    </div>
+
+    <div id="rosco-contenedor">
+        <div id="rosco"></div>
+    </div>
+
+   <div id="juego-controles">
+        <div id="pantalla-inicio">
+            <button id="btn-comenzar" onclick="comenzarJuego()">▶ Comenzar Juego</button>
+            
+            <div id="formulario-datos-estudiante" style="margin: 20px auto; max-width: 320px; text-align: left; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                <h3 style="text-align: center; margin-top: 0; margin-bottom: 15px; font-size: 1.1rem;">Datos del Participante</h3>
+                
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; font-size: 0.9rem; margin-bottom: 4px;">Nombre y Apellidos:</label>
+                    <input type="text" id="input-nombre-apellidos" placeholder="Ej: Juan Pérez" style="width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;">
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; font-size: 0.9rem; margin-bottom: 4px;">Centro Educativo:</label>
+                    <input type="text" id="input-centro" placeholder="Ej: Liceo 1" style="width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;">
+                </div>
+
+                <div style="margin-bottom: 5px;">
+                    <label style="display: block; font-size: 0.9rem; margin-bottom: 4px;">Curso y Grupo:</label>
+                    <input type="text" id="input-curso-grupo" placeholder="Ej: 3ro B" style="width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;">
+                </div>
+            </div>
+        </div> 
+
+        <div id="controles-activos" style="display: none;">
+            <h2 id="pregunta">Cargando...</h2>
+            <input type="text" id="respuesta" placeholder="Tu respuesta..." autocomplete="off">
+            <div class="botones-accion">
+                <button class="btn-juego btn-responder" onclick="responder()">Responder</button>
+                <button class="btn-juego btn-pasapalabra" onclick="pasar()">Pasapalabra</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="panel-admin">
+        <!-- SECCIÓN CONFIGURACIÓN DE TIEMPO -->
+        <h3>⚙️ Configuración del Tiempo</h3>
+        <div class="admin-row">
+            <select id="modo-tiempo" class="input-admin" style="width: 60%;">
+                <option value="total">Tiempo Total para todo el rosco</option>
+                <option value="por_letra">Tiempo límite por cada Letra</option>
+            </select>
+            <input type="number" id="tiempo-input" class="input-admin" style="width: 38%;" min="1" placeholder="Segundos">
+        </div>
+        <button onclick="guardarConfigTiempo()" class="btn-admin-primario">Aplicar Configuración de Tiempo</button>
+<div style="margin: 15px 0; display: inline-flex; align-items: center; gap: 10px; width: 100%;">
+        <input type="checkbox" id="chk-mostrar-nota" checked style="width: 18px; height: 18px; cursor: pointer;">
+        <label for="chk-mostrar-nota" style="color: #ffffff; cursor: pointer; font-family: sans-serif; font-size: 14px; user-select: none;">
+            Mostrar nota numérica al finalizar el juego
+        </label>
+    </div>
+      <hr class="divisor">
+
+    <button type="button" id="btn-toggle-preguntas" onclick="togglePreguntas()" class="btn-admin-azul" style="width: 100%; margin: 10px 0; padding: 10px; font-weight: bold; font-size: 14px;">
+        👁️ Mostrar Preguntas y Respuestas
+    </button>
+
+
+        <h3>➕ Añadir Nueva Pregunta</h3>
+        <div class="admin-row">
+            <input type="text" id="nueva-letra-add" class="input-admin" placeholder="Letra" style="width: 20%; text-transform: uppercase;" maxlength="1">
+            <input type="text" id="nueva-respuesta-add" class="input-admin" placeholder="Respuesta correcta" style="width: 78%;">
+        </div>
+        <textarea id="nueva-pregunta-add" class="input-admin" rows="2" placeholder="Escribe la pregunta aquí..."></textarea>
+        <button onclick="agregarPregunta()" class="btn-admin-azul">Añadir al Rosco</button>
+
+        <hr class="divisor">
+
+        <!-- SECCIÓN EDITAR / ELIMINAR -->
+        <h3>✏️ Editar o Eliminar (Guardado Local)</h3>
+        <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed rgba(255,255,255,0.2);">
+    <label class="admin-label" style="display: block; margin-bottom: 5px; font-weight: bold;">Título del Juego:</label>
+    <input type="text" id="input-titulo-config" class="input-admin" placeholder="Ej: Rosco de las Emociones">
+    <button onclick="guardarTitulo()" class="btn-admin-verde" style="width: 100%; padding: 8px; margin-top: 5px;">Guardar Nuevo Título</button>
+</div>
+        <select id="letra-editar" class="input-admin" onchange="cargarDatosLetra()">
+            <option value="">-- Selecciona una letra --</option>
+        </select>
+        
+        <label class="admin-label">Pregunta:</label>
+        <textarea id="nueva-pregunta" class="input-admin" rows="3"></textarea>
+        
+        <label class="admin-label">Respuesta correcta:</label>
+        <input type="text" id="nueva-respuesta" class="input-admin">
+        
+        <div class="admin-row">
+            <button onclick="guardarEdicion()" class="btn-admin-verde">Guardar Edición</button>
+            <button onclick="eliminarPregunta()" class="btn-admin-naranja">Eliminar Letra</button>
+        </div>
+
+        <hr class="divisor">
+
+        <h3>📂 Gestor de Roscos</h3>
+        
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+            <label class="admin-label">Guardar rosco actual en la PC:</label>
+            <div class="admin-row">
+                <input type="text" id="nombre-guardar-rosco" class="input-admin" placeholder="Ej: Emociones Básicas" style="width: 65%;">
+                <button onclick="guardarRoscoLocal()" class="btn-admin-verde" style="width: 35%; margin-bottom: 0;">💾 Guardar</button>
+            </div>
+
+            <label class="admin-label" style="margin-top: 15px;">Cargar o Eliminar rosco guardado:</label>
+            <div class="admin-row">
+                <select id="selector-roscos-locales" class="input-admin" style="width: 100%;">
+                    <option value="">-- Selecciona un rosco --</option>
+                </select>
+            </div>
+            <div class="admin-row">
+                <button onclick="cargarRoscoLocal()" class="btn-admin-primario" style="width: 49%; margin-bottom: 0;">📂 Cargar</button>
+                <button onclick="eliminarRoscoLocal()" class="btn-admin-naranja" style="width: 49%; margin-bottom: 0;">🗑️ Eliminar</button>
+            </div>
+        </div>
+
+        <div class="admin-row">
+            <button onclick="exportarRosco()" class="btn-admin-azul" style="width: 49%;">⬇️ Exportar JSON</button>
+            <button onclick="document.getElementById('file-import').click()" class="btn-admin-azul" style="width: 49%;">⬆️ Importar JSON</button>
+            <input type="file" id="file-import" accept=".json" style="display: none;" onchange="importarRosco(event)">
+        </div>
+
+        <hr class="divisor">
+
+        <button onclick="restaurarOriginales()" class="btn-admin-peligro">Restaurar al JSON original (Borrar todo)</button>
+
+   <div id="contenedor-preguntas-admin" style="display: none;">
+        <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <h3 style="margin-bottom: 10px;">📋 Vista General del Rosco (Listado Actual)</h3>
+            <div id="lista-preguntas-container" style="max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 6px;">
+                </div>
+        </div>
+    </div> </div> </div> 
+    <!-- VENTANA MODAL PERSONALIZADA (REEMPLAZA ALERT/PROMPT) -->
+    <div id="custom-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-titulo">Título</h3>
+            <div id="modal-cuerpo">
+                <p id="modal-mensaje">Mensaje aquí</p>
+                <div id="modal-inputs" style="display: none; margin-top: 15px;">
+                    <input type="password" id="modal-input-password" class="input-admin" placeholder="Escribe la contraseña aquí..." style="text-align: center;">
+                </div>
+            </div>
+            <div class="modal-botones">
+                <button id="modal-btn-ok" onclick="cerrarModal(true)">Aceptar</button>
+                <button id="modal-btn-cancel" onclick="cerrarModal(false)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+<audio id="ok" src="ok.mp3"></audio>
+<audio id="fail" src="fail.mp3"></audio>
+<audio id="musica-fondo" src="fondo.mp3" loop></audio>
+<audio id="sonido-fin" src="fin.mp3"></audio>
+ 
+    <script src="script.js"></script>
+</body>
+</html>
