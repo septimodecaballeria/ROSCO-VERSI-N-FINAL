@@ -20,7 +20,7 @@
   { "letra": "S", "pregunta": "Alteración emocional causada por un evento imprevisto.", "respuesta": "sorpresa" },
   { "letra": "T", "pregunta": "Sentimiento de dolor anímico y melancolía.", "respuesta": "tristeza" },
   { "letra": "U", "pregunta": "CONTIENE LA U. Estado de intranquilidad o temor extremo frente a un peligro.", "respuesta": "angustia" },
-  { "letra": "V", "pregunta": "Sentimiento de incomodidad o rechazo ante una falta propia o ajena.", "respuesta": "vergüenza" },
+  { "letra": "V", "pregunta": "Sentimiento de incomodidad o rechazo ante una falta propia o ajena.", "respuesta": "verguenza" },
   { "letra": "X", "pregunta": "CONTIENE LA X. Gran irritación o enfado que te hace perder la paciencia.", "respuesta": "exasperacion" },
   { "letra": "Y", "pregunta": "CONTIENE LA Y. Sensación de alivio y seguridad al sentir que alguien te ayuda.", "respuesta": "apoyo" },
   { "letra": "Z", "pregunta": "Inquietud, aflicción y congoja del ánimo.", "respuesta": "zozobra" }
